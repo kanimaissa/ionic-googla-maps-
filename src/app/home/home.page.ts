@@ -4,23 +4,16 @@ import {
   Platform,
   LoadingController
 } from '@ionic/angular';
-import {
-  GoogleMaps,
-  GoogleMap,
-  GoogleMapsEvent,
-  Marker,
-  GoogleMapsAnimation,
-  MyLocation,
-  Environment,
-  MarkerIcon,
-  MarkerOptions
-} from '@ionic-native/google-maps';
+import { GoogleMap,GoogleMaps ,GoogleMapOptions,Environment,GoogleMapsEvent,Marker} from "@ionic-native/google-maps";
+
+
 import { Router, NavigationExtras } from '@angular/router';
 import {  NavController, NavParams ,AlertController} from '@ionic/angular';
 import{AgenceService}from'./../services/agence.service';
 import { from } from 'rxjs';
 import { Agence } from '../agence';
 import { PopoverController } from '@ionic/angular';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -28,8 +21,11 @@ import { PopoverController } from '@ionic/angular';
 })
 export class HomePage implements OnInit{
 
- lat = '36.7977987';
-  lng = '10.0880051';
+ 
+ 
+  
+  lat = "36.7977987";
+   lng = "10.0880051";
  
 
   public data:any ;
@@ -40,26 +36,36 @@ export class HomePage implements OnInit{
 
   constructor(public alertController: AlertController,public agenceservice:AgenceService ,public loadingCtrl: LoadingController,public toastCtrl: ToastController,private platform: Platform,private router : Router,public navCtrl: NavController) { 
     this.data=[];
+    //this. loadMap();
   }
 
+  ionViewDidLoad() {
+    //this.loadMap();
+    //this.placeMarker();
+   
+  }
   ngOnInit() {
     // Since ngOnInit() is executed before `deviceready` event,
     // you have to wait the event.
      this.platform.ready();
-    this.loadMap();
-    this.getLocation();
-    this.placeMarker();
+    //this.loadMap();
+    //this.getLocation();
+   // this.placeMarker();
      //this.loadAgences(this.router,this.navCtrl);
   }
 
 
 //load map card
-  loadMap() {
+  /*loadMap() {
+    
     Environment.setEnv({
       API_KEY_FOR_BROWSER_RELEASE: 'AIzaSyCMvyFMHl9C_ZK-Pvt-thAT3UTDxzRKr1k',
-      API_KEY_FOR_BROWSER_DEBUG: 'AIzaSyCMvyFMHl9C_ZK-Pvt-thAT3UTDxzRKr1k'
+      API_KEY_FOR_BROWSER_DEBUG: 'AIzaSyCMvyFMHl9C_ZK-Pvt-thAT3UTDxzRKr1k',
+      GOOGLE_MAPS_ANDROID_API_KEY :'AIzaSyCMvyFMHl9C_ZK-Pvt-thAT3UTDxzRKr1k' ,
+      GOOGLE_MAPS_IOS_API_KEY :'AIzaSyCMvyFMHl9C_ZK-Pvt-thAT3UTDxzRKr1k'
     });
-    this.map = GoogleMaps.create('map_canvas', {
+
+    let mapOptions: GoogleMapOptions ={
       camera: {
         target: {
           lat: this.lat,
@@ -68,15 +74,13 @@ export class HomePage implements OnInit{
         zoom: 13,
         tilt: 30
       }
-    
-    });
-    
-  }
- async placeMarker() {
-    /*this.loading = await this.loadingCtrl.create({
-      message: 'Please wait...'
-    });
-    await this.loading.present();*/
+    }
+    this.map = GoogleMaps.create('map',mapOptions);
+    console.log('ca marche');
+  }*/
+ /*async placeMarker() {
+   
+   
     this.map.clear();
     this.agenceservice.getAgenceAutour_de_moi(this.lat,this.lng).subscribe(res =>{
       this.data=res.agences;
@@ -109,12 +113,12 @@ export class HomePage implements OnInit{
   }
   
 }) 
- }
+ }*/
 
 
 
 
-  async getLocation() {
+  /*async getLocation() {
     this.map.clear();
     // Get the location of you
     this.map.getMyLocation().then((location: MyLocation) => {
@@ -159,8 +163,9 @@ export class HomePage implements OnInit{
    
     toast.present();
   }
+*/
 
 
-
+ 
   
 }

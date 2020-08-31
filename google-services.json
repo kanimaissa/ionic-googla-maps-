@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "854973760113",
+    "firebase_url": "https://queue-dedec.firebaseio.com",
+    "project_id": "queue-dedec",
+    "storage_bucket": "queue-dedec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:854973760113:android:7653adff3c6567a79611d0",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "854973760113-hpkupl9r1aujpu0mf1nj0g5uiu9i7as4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPow8bg_SakU4UN-EUdi6QQFA_xpI2RIY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "854973760113-hpkupl9r1aujpu0mf1nj0g5uiu9i7as4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "854973760113-pah2g0jj83016920hbgcujjcqo34i8lk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.expressdisplay.queue"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

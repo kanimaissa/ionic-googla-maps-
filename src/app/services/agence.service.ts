@@ -10,8 +10,8 @@ import { Agence } from './../agence';
   providedIn: 'root'
 })
 export class AgenceService {
-  AGENCE_LIST_URL="http://192.168.1.14/webserviceMobileApp/v1/allagences";
-  AGENCE_AUTOUR_DE_MOI="http://192.168.1.14/webserviceMobileApp/v1/agences";
+  AGENCE_LIST_URL="http:///41.231.54.66/webserviceMobileApp/v1/allagences";
+  AGENCE_AUTOUR_DE_MOI="http:///41.231.54.66/webserviceMobileApp/v1/agences";
   constructor(private httpclient: HttpClient ) { }
 
 

@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { GoogleMaps} from '@ionic-native/google-maps';
 import {HttpClientModule} from '@angular/common/http';
+import { FCM } from "cordova-plugin-fcm-with-dependecy-updated/ionic/ngx";
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -22,9 +23,11 @@ import {HttpClientModule} from '@angular/common/http';
   providers: [
     StatusBar,
     SplashScreen,
-    GoogleMaps,
-  
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    FCM,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    GoogleMaps
+    
+
   ],
   bootstrap: [AppComponent]
 })
