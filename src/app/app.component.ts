@@ -30,7 +30,7 @@ routepage:any;
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       //function to get token
-      this.fcm.getToken().then(token => {
+      /*this.fcm.getToken().then(token => {
         console.log('token:',token);
         // send token to the server
       });
@@ -44,8 +44,8 @@ routepage:any;
         } else {
           console.log('Received in foreground');
         }
-      });
-
+      });*/
+   
     });
   }
  

@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 import { GoogleMaps} from '@ionic-native/google-maps';
 import { HomePageRoutingModule } from './home-routing.module';
-
+import { MapsComponent} from'../components/maps/maps.component';
 
 @NgModule({
   imports: [
@@ -18,6 +18,6 @@ import { HomePageRoutingModule } from './home-routing.module';
   providers: [
     GoogleMaps
   ],
-  declarations: [HomePage]
+  declarations: [HomePage,MapsComponent]
 })
 export class HomePageModule {}

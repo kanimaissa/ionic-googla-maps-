@@ -1,11 +1,12 @@
-import { Component , OnInit } from '@angular/core';
+import { Component , OnInit ,ViewChild, ElementRef} from '@angular/core';
 import {
   ToastController,
   Platform,
   LoadingController
 } from '@ionic/angular';
-import { GoogleMap,GoogleMaps ,GoogleMapOptions,Environment,GoogleMapsEvent,Marker} from "@ionic-native/google-maps";
-
+//import { GoogleMap,GoogleMaps ,GoogleMapOptions,Environment,GoogleMapsEvent,Marker} from "@ionic-native/google-maps";
+import { Geolocation ,GeolocationOptions, Geoposition, PositionError } from '@ionic-native/geolocation/ngx';
+import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 
 import { Router, NavigationExtras } from '@angular/router';
 import {  NavController, NavParams ,AlertController} from '@ionic/angular';
@@ -13,72 +14,86 @@ import{AgenceService}from'./../services/agence.service';
 import { from } from 'rxjs';
 import { Agence } from '../agence';
 import { PopoverController } from '@ionic/angular';
+import {
+  GoogleMaps,
+  GoogleMap,
+  MyLocation,
+  LocationService,
+} from '@ionic-native/google-maps';
 
+declare var google;
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit{
-
  
  
-  
-  lat = "36.7977987";
-   lng = "10.0880051";
- 
-
-  public data:any ;
-
-  map: GoogleMap;
-  loading: any;
-
-
-  constructor(public alertController: AlertController,public agenceservice:AgenceService ,public loadingCtrl: LoadingController,public toastCtrl: ToastController,private platform: Platform,private router : Router,public navCtrl: NavController) { 
-    this.data=[];
-    //this. loadMap();
-  }
-
-  ionViewDidLoad() {
-    //this.loadMap();
-    //this.placeMarker();
-   
-  }
-  ngOnInit() {
+  /*
+  ngsOnInit() {
     // Since ngOnInit() is executed before `deviceready` event,
     // you have to wait the event.
-     this.platform.ready();
+     //this.platform.ready();
     //this.loadMap();
     //this.getLocation();
    // this.placeMarker();
      //this.loadAgences(this.router,this.navCtrl);
   }
+  ngAfterViewInit() {
+    this. platform.ready().then(() => {
+      this.loadMap() 
+    });
+  }
 
 
-//load map card
-  /*loadMap() {
+  addMarker(){
+    let markerMap = {
+      'url':'../../assets/icon/marker_noir.svg',
+   }
+    let marker = new google.maps.Marker({
+     
+      map: this.map,
+      animation: google.maps.Animation.DROP,
+      position: new google.maps.LatLng( this.latitude,this.longitude),
+      icon: {
+      scaledSize: new google.maps.Size(48, 48),
+      url:markerMap
+      }
+    });
+
+    this.addInfoWindow(marker, "");
+    let content = '<div class="mapPopover"></div>';         
+   
     
-    Environment.setEnv({
+   
+  }
+/*load map card
+  laoadMap() {
+    
+   Environment.setEnv({
       API_KEY_FOR_BROWSER_RELEASE: 'AIzaSyCMvyFMHl9C_ZK-Pvt-thAT3UTDxzRKr1k',
       API_KEY_FOR_BROWSER_DEBUG: 'AIzaSyCMvyFMHl9C_ZK-Pvt-thAT3UTDxzRKr1k',
       GOOGLE_MAPS_ANDROID_API_KEY :'AIzaSyCMvyFMHl9C_ZK-Pvt-thAT3UTDxzRKr1k' ,
       GOOGLE_MAPS_IOS_API_KEY :'AIzaSyCMvyFMHl9C_ZK-Pvt-thAT3UTDxzRKr1k'
     });
 
-    let mapOptions: GoogleMapOptions ={
+   
+    this.map = GoogleMaps.create('map_canvas',{
       camera: {
         target: {
           lat: this.lat,
           lng: this.lng
         },
-        zoom: 13,
+        zoom: 8,
         tilt: 30
       }
-    }
-    this.map = GoogleMaps.create('map',mapOptions);
+    });
     console.log('ca marche');
-  }*/
- /*async placeMarker() {
+  }
+
+
+ async placeMarker() {
    
    
     this.map.clear();
@@ -94,7 +109,6 @@ export class HomePage implements OnInit{
         const latitude=agences["gps_y"];
         const encombrement=agences["encombrement"];
      
-
     const marker: Marker = this.map.addMarkerSync({
       title:"<b style='color='red'> "+agences.nom_agence+"</b>",
        icon:'blue',
@@ -113,59 +127,79 @@ export class HomePage implements OnInit{
   }
   
 }) 
- }*/
+ }
 
-
-
-
-  /*async getLocation() {
-    this.map.clear();
-    // Get the location of you
-    this.map.getMyLocation().then((location: MyLocation) => {
-    
-      console.log(JSON.stringify(location, null ,2));
-    
-
-      // Move the map camera to the location with animation
-      this.map.animateCamera({
-        target: location.latLng,
-        zoom: 13,
-        tilt: 30,
-       
-      });
-
-      // add a marker
-     let marker: Marker = this.map.addMarkerSync({
-        title: 'Ma position!',
-        position: location.latLng,
-        animation: GoogleMapsAnimation.BOUNCE
-       
-      });
-
-      // show the infoWindow
-      marker.showInfoWindow();
-
-      // If clicked it, display the alert
-     
-    })
-    .catch(err => {
-      this.loading.dismiss();
-      this.showToast(err.error_message);
-    });
-  }
-
-  async showToast(message: string) {
-    let toast = await this.toastCtrl.create({
-      message: message,
-      duration: 2000,
-      position: 'middle'
-    });
-   
-    toast.present();
-  }
-*/
-
-
+ addInfoWindow(marker, content){
+  let infoWindow = new google.maps.InfoWindow({
+    content: content
+  });
  
+  google.maps.event.addListener(marker, 'click', (event) => {
+  
+  });
+ 
+}
+*/
+maps:GoogleMap;
+map: any;
+mapOptions:any;
+trafficEnabled = false;
+transitEnabled = false;
+bicycleEnabled = false;
+markers = [];
+places = [];
+trafficLayer = new google.maps.TrafficLayer();
+transitLayer = new google.maps.TransitLayer();
+bicycleLayer = new google.maps.BicyclingLayer();
+myLocation: any;
+infoWindow: any;
+isInfoWindowShown: boolean = false;
+log;
+log2;
+constructor(private navCtrl: NavController, private platform: Platform, private geolocation: Geolocation) {
+}
+
+ngOnInit() {
+  this.platform.ready().then(() => {
+    this.places = [];
+    this.initMap();
+    
+});
+}
+ionViewDidLoad() {
+  this.platform.ready().then(() => {
+    this.places = [];
+    this.initMap();
+   
+});
+}
+ionViewDidEnter() {
+    this.platform.ready().then(() => {
+      this.places = [];
+      this.initMap();
+      
+  });
+}
+initMap() {
+  LocationService.getMyLocation({enableHighAccuracy: true}).then((location: MyLocation) => {
+  console.log("init",location.latLng);
+ console.log( "init",location.latLng.lat);
+ console.log("init", location.latLng.lng);
+ console.log(location);
+ this.log=location.latLng.lat;
+ this.log2=location.latLng.lng;
+  }).catch((error: any) => {
+    // Can not get location, permission refused, and so on...
+    console.log(error);
+  });
+}
+
+
+
+
+
+
+
+// github code https://github.com/TopStar51/Ionic4-Google_Map_API-AlertController
   
 }

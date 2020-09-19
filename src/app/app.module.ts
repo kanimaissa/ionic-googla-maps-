@@ -8,11 +8,14 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { GoogleMaps} from '@ionic-native/google-maps';
+import { GoogleMaps} from '@ionic-native/google-maps/ngx';
 import {HttpClientModule} from '@angular/common/http';
 import { FCM } from "cordova-plugin-fcm-with-dependecy-updated/ionic/ngx";
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
+import { SecondePipe } from './seconde.pipe';
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, SecondePipe],
   entryComponents: [],
   imports: [
     BrowserModule, 
@@ -24,10 +27,10 @@ import { FCM } from "cordova-plugin-fcm-with-dependecy-updated/ionic/ngx";
     StatusBar,
     SplashScreen,
     FCM,
+    Geolocation,
+    NativeGeocoder,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     GoogleMaps
-    
-
   ],
   bootstrap: [AppComponent]
 })
